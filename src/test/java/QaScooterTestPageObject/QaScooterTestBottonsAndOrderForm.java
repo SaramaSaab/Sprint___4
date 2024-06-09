@@ -10,7 +10,10 @@ import org.openqa.selenium.WebDriver;
 @RunWith(Parameterized.class)
 public class QaScooterTestBottonsAndOrderForm {
 
-    public WebDriver driver;
+    //выбор браузера для теста
+    Browsers browser = new Browsers();
+    WebDriver driver = browser.webDriverFromChrome();
+
    //переменная для локаторов кнопок заказа наверху и внизу
     private final By buttonOrder;
     //переменная для имени в форме заказа
@@ -46,7 +49,6 @@ public class QaScooterTestBottonsAndOrderForm {
 
     @Test
     public void checkAllowChrome(){
-        driver = new ChromeDriver();
         // перешли на страницу тестового приложения
         driver.get("https://qa-scooter.praktikum-services.ru/");
 

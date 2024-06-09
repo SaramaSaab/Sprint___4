@@ -10,7 +10,10 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class TestDropDownList {
-    public WebDriver driver;
+
+    //выбор браузера для теста
+    Browsers browser = new Browsers();
+    WebDriver driver = browser.webDriverFromChrome();
 
     private final int itemIndex;
     private final String expectedText;
@@ -36,7 +39,8 @@ public class TestDropDownList {
 
     @Test
     public void checkAllowChrome() {
-        driver = new ChromeDriver();
+
+        // перешли на страницу тестового приложения
         driver.get("https://qa-scooter.praktikum-services.ru/");
 
         //дали разрешение на куки

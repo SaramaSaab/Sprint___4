@@ -8,23 +8,31 @@ public class OrderFormTextPageObject {
 
     public OrderFormTextPageObject(WebDriver driver){
         this.driver = driver;
-
     }
+
+    //локатор кнопки заказа вверху
+    private final By butUp = By.xpath(".//button[@class = 'Button_Button__ra12g']");
+    //локатор кнопки заказа внизу
+    private final By bottomBut = By.className("Button_Middle__1CSJM");
     //локатор для имени
-    private By firstName = By.xpath(".//div/div[@class = 'Input_InputContainer__3NykH']/input[@placeholder = '* Имя']");
+    private final By firstName = By.xpath(".//div/div[@class = 'Input_InputContainer__3NykH']/input[@placeholder = '* Имя']");
     //локатор для фамилии
-    private By secondName = By.xpath(".//div/div[@class = 'Input_InputContainer__3NykH']/input[@placeholder = '* Фамилия']");
+    private final By secondName = By.xpath(".//div/div[@class = 'Input_InputContainer__3NykH']/input[@placeholder = '* Фамилия']");
     //локатор для адреса
-    private By address = By.xpath(".//div/div[@class = 'Input_InputContainer__3NykH']/input[@placeholder = '* Адрес: куда привезти заказ']");
+    private final By address = By.xpath(".//div/div[@class = 'Input_InputContainer__3NykH']/input[@placeholder = '* Адрес: куда привезти заказ']");
     //локатор для поля выбора метро
-    private By station = By.xpath(".//div/input[@class = 'select-search__input']");//для клика по полю
+    private final By station = By.xpath(".//div/input[@class = 'select-search__input']");//для клика по полю
     //локатор для выбора станции в выпавшем списке с метро
-    private By inputStation = By.xpath(".//div[text() = 'Бульвар Рокоссовского']");
+    private final By inputStation = By.xpath(".//div[text() = 'Бульвар Рокоссовского']");
     //локатор для поля номера телефона
-    private By numberForCall = By.xpath(".//div/div[@class = 'Input_InputContainer__3NykH']/input[@placeholder = '* Телефон: на него позвонит курьер']");
+    private final By numberForCall = By.xpath(".//div/div[@class = 'Input_InputContainer__3NykH']/input[@placeholder = '* Телефон: на него позвонит курьер']");
     //локатор для кнопки Далее
     private final By buttonNext = By.className("Button_Middle__1CSJM");
 
+//метод для кнопок заказа - внизу и наверху
+    public void clickButtonsOrder(By buttons){
+        driver.findElement(buttons).click();
+    }
     //ввели имя
     public void setUserFirstNameUserDataWindow(String userFirstName) {
         driver.findElement(firstName).sendKeys(userFirstName);
@@ -66,7 +74,8 @@ public class OrderFormTextPageObject {
     }
 
     //собрали в один метод все предыдущие, чтобы не вызывать их по одному
-    public void inputTextIntoOrderUserDataWindow(String userFirstName, String userSecondName, String userAddress, String userNumberForCall){
+    public void inputTextIntoOrderUserDataWindow(By buttonOrder, String userFirstName, String userSecondName, String userAddress, String userNumberForCall){
+        clickButtonsOrder(buttonOrder);
         setUserFirstNameUserDataWindow(userFirstName);
         setSecondNameUserDataWindow(userSecondName);
         setAddressUserDataWindow(userAddress);

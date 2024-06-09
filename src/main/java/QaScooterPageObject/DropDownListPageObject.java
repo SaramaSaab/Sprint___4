@@ -10,30 +10,28 @@ public class DropDownListPageObject {
     private WebDriver driver;
 
     //локатор до окна с выпадающим списком вопросов
-    private final By elementOfListQuestions = By.id("accordion__heading-0");
-    //локатор для определения первого элемента в списке с нижеуказанным текстом
-    private final By textOfHeaderFirstPoint = By.xpath(".//div[text() = 'Сколько это стоит? И как оплатить?']");
-    //локатор для поиска текста после клика на первый элемент с вопросом
-    public final By textIntoList = By.xpath(".//div[@data-accordion-component = 'AccordionItemPanel']/p[text() = 'Сутки — 400 рублей. Оплата курьеру — наличными или картой.']");
+    private final By scrollToThePoint = By.xpath(".//div[@class= 'accordion']");
+    //локатор для определения элементов списка с текстом
+    public String clickOfPoint = ".//div[@id= 'accordion__heading-%d']";
+    public String textOfPoint = ".//div[@id='accordion__panel-%d']/p";
 
-    public DropDownListPageObject(WebDriver driver){
+    public DropDownListPageObject(WebDriver driver) {
         this.driver = driver;
     }
 
-    //в методе ожидаем, что пока не прокрутится до выпадающего списка, не кликать
-    //клик
-    public void clickElementOfListQuestions(){
-        WebElement element = driver.findElement(elementOfListQuestions);
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
+    //в методе ожидаем скролла до списка
+    public void scrollOfListQuestions() {
+        WebElement element = driver.findElement(scrollToThePoint);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
         new WebDriverWait(driver, 5)
-                .until(ExpectedConditions.visibilityOfElementLocated(elementOfListQuestions));
-        driver.findElement(textOfHeaderFirstPoint).click();
+                .until(ExpectedConditions.visibilityOfElementLocated(scrollToThePoint));
     }
 
     //получение текста из первой вкладки для сравнения в тестовом классе
-    public String getTextOfFirstPointListQuestions(){
+    public String getTextOfListQuestions(int itemIndex) {
         new WebDriverWait(driver, 8)
-                .until(ExpectedConditions.visibilityOfElementLocated(textIntoList));
-        return driver.findElement(textIntoList).getText();
+                .until(ExpectedConditions.visibilityOfElementLocated(scrollToThePoint));
+        driver.findElement(By.xpath(String.format(clickOfPoint, itemIndex))).click();
+        return driver.findElement(By.xpath(String.format(textOfPoint, itemIndex))).getText();
     }
 }
